@@ -53,12 +53,13 @@ class App extends React.Component {
 						<AffichageTouche key={index} touche={lettre} onClick={this.handleClick}/>)
 					)}
 				</div>
-				< /div>
-					);
-					}
-					}
+			</div>
+		);
+	}
+}
 
-					export default App;
-			//todo : Déterminer si le jeu est fini
-					//todo : score , différents mots.
+
+export default App;
+//todo : Déterminer si le jeu est fini
+//todo : score , différents mots.
 //todo :	style
