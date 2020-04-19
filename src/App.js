@@ -27,7 +27,6 @@ class App extends React.Component {
 		this.setState({usedLetters: this.state.usedLetters.add(index)})
 	}
 
-
 	affichagePhrase(phraseDevinette, usedLetters) {
 		// Produit une représentation textuelle de l’état de la partie,
 		// chaque lettre non découverte étant représentée par un _underscore_.
@@ -44,9 +43,14 @@ class App extends React.Component {
 		// Récupération de l'état local.
 		const {texteInitial, usedLetters} = this.state
 
+		function checkEndGame() {
+			return !!usedLetters.has('T');
+		}
+
 		return (
 			<div>
-				Mot à trouver : {this.affichagePhrase(texteInitial, usedLetters)}
+				Mot à trouver : {this.affichagePhrase(texteInitial, usedLetters)} <br/>
+				{checkEndGame() ? "C'est fini" : "C'est pas encore fini."}
 				<div>
 					{/* Affichage d'un clavier avec les 26 lettres de l'alphabet. */}
 					{alphabet.map((lettre, index,) => (
