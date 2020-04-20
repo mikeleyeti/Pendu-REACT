@@ -2,7 +2,6 @@ import React from 'react';
 
 import './App.css';
 import {AffichageTouche} from "./Touche";
-import {Score} from "./Score";
 
 // Construction des 26 lettres de l'alphabet à partir des codes ASCII.
 const alphabet = [];
@@ -22,6 +21,7 @@ class App extends React.Component {
 			usedLetters: lettres,
 			nombreTentatives: 0,
 			jouer: true,
+			gagne: false,
 		}
 		// Bind de handleClick pour conserver le this
 		this.handleClick = this.handleClick.bind(this)
@@ -37,12 +37,24 @@ class App extends React.Component {
 		return score
 	}
 
+	finDePartie(phraseInitiale, lettresTrouvees) {
+		if (this.calculScore(phraseInitiale,lettresTrouvees) === phraseInitiale.length){
+			return true
+		} else {
+			return false
+		}
+	}
+
 	handleClick(index) {
 		// Ajoute la lettre cliquée dans le set usedLetters
 		this.state.jouer && this.setState({usedLetters: this.state.usedLetters.add(index)})
+		// Si la lettre n'est pas dans le mot à deviner
 		if (!this.state.texteInitial.includes(index)) {
 			this.state.jouer && this.setState({nombreTentatives: this.state.nombreTentatives + 1})
-			this.state.nombreTentatives == nombreMaximumTentatve - 1 && this.setState({jouer: false})
+			this.state.nombreTentatives === nombreMaximumTentatve - 1 && this.setState({jouer: false})
+		}
+		if (this.finDePartie(this.state.texteInitial, this.state.usedLetters)) {
+			this.setState({gagne:true,jouer:false})
 		}
 	}
 
@@ -67,7 +79,8 @@ class App extends React.Component {
 				Nombre de tentatives : {this.state.nombreTentatives} <br/>
 				Mot à trouver : {this.affichagePhrase(texteInitial, usedLetters)} <br/>
 				{/*{checkEndGame() ? "C'est fini" : "C'est pas encore fini."}*/}
-				{this.state.jouer ? false : "C'est perdu !"}
+				{this.state.jouer ? false : "Partie terminée."}
+				{this.state.gagne ? "C'est gagné" : false}
 				<div>
 					{/* Affichage d'un clavier avec les 26 lettres de l'alphabet. */}
 					{alphabet.map((lettre, index,) => (
